@@ -4,6 +4,25 @@ using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {
-    [SerializeField] private Figure _cirlePrefab;
-}
+    private const float _xField = 650;
+    private const float _yField = 300;
 
+    private int i;
+    [SerializeField] private Fishka _fishka;
+    [SerializeField] private GameObject _fishkaRoot;
+
+    public void CreatFishkaOnClick()
+    {
+        for (i =1; i <= 10; i++)
+        {
+            Fishka newFishka = Instantiate(_fishka, _fishkaRoot.transform);
+            newFishka.transform.localPosition = new Vector3(Random.Range(-_xField, _xField), Random.Range(-_yField, _yField), 0);
+            newFishka.transform.localRotation = Quaternion.identity;
+            newFishka.init(i);
+        }
+        
+        
+
+    }
+    
+}
