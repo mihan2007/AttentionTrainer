@@ -10,11 +10,18 @@ public class GameManager : MonoBehaviour
     private const float _yField = 300;
     private int i;
 
+    [SerializeField] private Canvas _gameResulWindow;
+
     [SerializeField] private Slider _timeSlider;
     [SerializeField] private Slider _amountSlider;
 
     [SerializeField] private TMP_Text _timeSliderLable;
     [SerializeField] private TMP_Text _amountSliderLable;
+
+    [SerializeField] private float _gameTime;
+    [SerializeField] private float _amountFishka;
+
+    [SerializeField] private bool _isGameStarted;
 
     [SerializeField] private TMP_Text _difficutyLable;
     [SerializeField] private bool isStartButtonPressed;
@@ -28,21 +35,32 @@ public class GameManager : MonoBehaviour
 
     private void Update()
     {
-        _timeSliderLable.text = _timeSlider.value.ToString("F2");
-        _amountSliderLable.text = _amountSlider.value.ToString("F0");
+       if (!_isGameStarted)
+        {
+            _gameTime = _timeSlider.value;
+            _amountFishka = _amountSlider.value;
+
+            _timeSliderLable.text = _timeSlider.value.ToString("F2");
+            _amountSliderLable.text = _amountSlider.value.ToString("F0");
+        }
+       else
+        {
+            _gameTime -= Time.deltaTime;
+            _difficutyLable.text = "Started";
+            _timeSliderLable.text = _gameTime.ToString("F2");
+            _timeSlider.interactable = false;
+        }
     }
 
     public void CreatFishkaOnClick()
     {
-        if (isStartButtonPressed == false)
+        if (!isStartButtonPressed)
         {
             isStartButtonPressed = true;
+            _isGameStarted = true;
+            _gameResulWindow.enabled = true;
 
-            _difficutyLable.text = "Start";
-            
-            _timeSlider.interactable = false;
-
-            for (i = 1; i <= 10; i++)
+            for (i = 1; i <= _amountFishka; i++)
             {
                 Fishka newFishka = Instantiate(_fishka, _fishkaRoot.transform);
                 newFishka.transform.localPosition = new Vector3(Random.Range(-_xField, _xField), Random.Range(-_yField, _yField), 0);
