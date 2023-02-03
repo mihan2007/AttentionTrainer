@@ -11,6 +11,7 @@ public class GameManager : MonoBehaviour
     private int i;
 
     [SerializeField] private Canvas _gameResulWindow;
+    [SerializeField] private Image _progressBar;
 
     [SerializeField] private Slider _timeSlider;
     [SerializeField] private Slider _amountSlider;
@@ -45,10 +46,20 @@ public class GameManager : MonoBehaviour
         }
        else
         {
+            float _progressBarHigh;
+           
+            float _progressBarMaxLenght = 1280;
+                       
             _gameTime -= Time.deltaTime;
             _difficutyLable.text = "Started";
             _timeSliderLable.text = _gameTime.ToString("F2");
             _timeSlider.interactable = false;
+
+            float _progressBarCurrantLenght = _progressBarMaxLenght * (_gameTime/_timeSlider.value);
+
+            _progressBarHigh = _progressBar.rectTransform.rect.height;
+            _progressBar.rectTransform.sizeDelta = new Vector2(_progressBarCurrantLenght, _progressBarHigh);
+            Debug.Log(_progressBarCurrantLenght);
         }
     }
 
@@ -58,7 +69,8 @@ public class GameManager : MonoBehaviour
         {
             isStartButtonPressed = true;
             _isGameStarted = true;
-            _gameResulWindow.enabled = true;
+            
+            //_gameResulWindow.enabled = true;
 
             for (i = 1; i <= _amountFishka; i++)
             {
