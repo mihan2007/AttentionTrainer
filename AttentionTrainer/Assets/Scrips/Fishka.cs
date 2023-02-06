@@ -12,8 +12,9 @@ public class Fishka : MonoBehaviour
         _indexNumber.text = Index.ToString("F0");
     }
 
+
     public void DestroyOnClick()
     {
-        Destroy(gameObject);
+       Destroy(gameObject);
     }
 }

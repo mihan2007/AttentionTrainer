@@ -10,7 +10,12 @@ public class GameManager : MonoBehaviour
     private const float _yField = 300;
     private int i;
 
-    [SerializeField] private Canvas _gameResulWindow;
+
+    [SerializeField] private GameObject _popUpWindow;
+    [SerializeField] private TMP_Text _popUpWindowLable;
+
+    [SerializeField] static  int GlobalCounter;
+    
     [SerializeField] private Image _progressBar;
 
     [SerializeField] private Slider _timeSlider;
@@ -25,9 +30,12 @@ public class GameManager : MonoBehaviour
     [SerializeField] private bool _isGameStarted;
 
     [SerializeField] private TMP_Text _difficutyLable;
-    [SerializeField] private bool isStartButtonPressed;
+    [SerializeField] private bool _isStartButtonPressed;
     [SerializeField] private Fishka _fishka;
     [SerializeField] private GameObject _fishkaRoot;
+
+
+
 
     private void Start()
     {
@@ -36,7 +44,7 @@ public class GameManager : MonoBehaviour
 
     private void Update()
     {
-       if (!_isGameStarted)
+        if (!_isGameStarted)
         {
             _gameTime = _timeSlider.value;
             _amountFishka = _amountSlider.value;
@@ -47,30 +55,39 @@ public class GameManager : MonoBehaviour
        else
         {
             float _progressBarHigh;
-           
             float _progressBarMaxLenght = 1280;
                        
-            _gameTime -= Time.deltaTime;
-            _difficutyLable.text = "Started";
-            _timeSliderLable.text = _gameTime.ToString("F2");
-            _timeSlider.interactable = false;
+            if (_gameTime >= 0)
+            {
+                _gameTime -= Time.deltaTime;
+                _difficutyLable.text = "Started";
+                _timeSliderLable.text = _gameTime.ToString("F2");
+                _timeSlider.interactable = false;
 
-            float _progressBarCurrantLenght = _progressBarMaxLenght * (_gameTime/_timeSlider.value);
+                float _progressBarCurrantLenght = _progressBarMaxLenght * (_gameTime / _timeSlider.value);
 
-            _progressBarHigh = _progressBar.rectTransform.rect.height;
-            _progressBar.rectTransform.sizeDelta = new Vector2(_progressBarCurrantLenght, _progressBarHigh);
-            Debug.Log(_progressBarCurrantLenght);
+                _progressBarHigh = _progressBar.rectTransform.rect.height;
+
+                _progressBar.rectTransform.sizeDelta = new Vector2(_progressBarCurrantLenght, _progressBarHigh);
+            }
+            
+            if (_gameTime <= 0)
+            {
+                _isGameStarted = false;
+                _popUpWindow.SetActive(true);
+                _popUpWindowLable.text = "GAME OVER";
+                _difficutyLable.text = "Difficulty";
+                _timeSlider.interactable = true;
+            }
         }
     }
 
     public void CreatFishkaOnClick()
     {
-        if (!isStartButtonPressed)
+        if (!_isStartButtonPressed)
         {
-            isStartButtonPressed = true;
-            _isGameStarted = true;
-            
-            //_gameResulWindow.enabled = true;
+            _isStartButtonPressed = true;
+            _isGameStarted = true;          
 
             for (i = 1; i <= _amountFishka; i++)
             {
@@ -80,5 +97,23 @@ public class GameManager : MonoBehaviour
                 newFishka.init(i);
             }
         } 
+    }
+
+    public void CheckGlobalCounter(int number)
+    {
+        
+    }
+
+    public void ClosePopUpWindow()
+    {
+        GameObject[] FishkaClone = GameObject.FindGameObjectsWithTag("Fishka");
+        foreach (GameObject prefab in FishkaClone)
+        {
+            Destroy(prefab);
+        }
+        
+        _popUpWindow.SetActive(false);
+        _isStartButtonPressed = false;
+
     }
 }
