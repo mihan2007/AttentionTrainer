@@ -2235,7 +2235,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _popUpWindow: {fileID: 2070174186}
   _popUpWindowLable: {fileID: 1791135652}
-  GlobalCounter: 0
   _progressBar: {fileID: 986347613}
   _timeSlider: {fileID: 2121077341}
   _amountSlider: {fileID: 11072556}
@@ -2245,7 +2244,7 @@ MonoBehaviour:
   _amountFishka: 0
   _isGameStarted: 0
   _difficutyLable: {fileID: 26601849}
-  isStartButtonPressed: 0
+  _isStartButtonPressed: 0
   _fishka: {fileID: 2794725228356194249, guid: b38916f84fb8da04bb9c39dfa8b07284, type: 3}
   _fishkaRoot: {fileID: 224735380}
 --- !u!4 &1745038460
@@ -2908,7 +2907,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &2070174187
 RectTransform:
   m_ObjectHideFlags: 0

@@ -94,14 +94,33 @@ public class GameManager : MonoBehaviour
                 Fishka newFishka = Instantiate(_fishka, _fishkaRoot.transform);
                 newFishka.transform.localPosition = new Vector3(Random.Range(-_xField, _xField), Random.Range(-_yField, _yField), 0);
                 newFishka.transform.localRotation = Quaternion.identity;
-                newFishka.init(i);
+                newFishka.init(i,this);
             }
         } 
     }
 
     public void CheckGlobalCounter(int number)
     {
+        GlobalCounter ++;
         
+        if ((GlobalCounter - number) != 0)
+        {
+            _isGameStarted = false;
+            _popUpWindow.SetActive(true);
+            _popUpWindowLable.text = "GAME OVER";
+            _difficutyLable.text = "Difficulty";
+            _timeSlider.interactable = true;
+            GlobalCounter = 0;
+        }
+        if ((GlobalCounter - number) == 0 && GlobalCounter == _amountFishka)
+        {
+            _isGameStarted = false;
+            _popUpWindow.SetActive(true);
+            _popUpWindowLable.text = "YOU WIN";
+            _difficutyLable.text = "Difficulty";
+            _timeSlider.interactable = true;
+            GlobalCounter = 0;
+        }
     }
 
     public void ClosePopUpWindow()
